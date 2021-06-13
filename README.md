@@ -1,68 +1,51 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+react hooks:
 
-## Available Scripts
+1.useState：不能用到 if 语句，数组解构赋值出来
 
-In the project directory, you can run:
+2.useEffect：接收 2 个参数，第一个参数是函数，第二个是触发依赖的值，相当于 componentDidMount/componentDidUpdate 和 componentWillUnMount
+useEffect(()=>{},[]);
 
-### `yarn start`
+3.useRef：操作 dom 节点，保存变量
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+4.useCallback：缓存函数
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+5.useMemo：性能优化 useMemo(()=>{},[]);
+class 类组件有 shouldComponentUpdate 这个生命周期去判断是否要渲染，函数组件没有
+场景：父组件更新了，子组件不管什么时候也跟着更新，所以用 useMemo 第二个依赖值发生变化才更新
 
-### `yarn test`
+6.useContext,createContext ：createContext 创建共享上下文，useContext 拿到共享上下文
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+7.useReducer：useReducer(reducer 函数,初始值);
 
-### `yarn build`
+8.自定义 hooks....
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+FAQ：使用 hooks 实现一个类似 rudex：
+用到的钩子函数有 useContext 和 useReducer，可以先用 createContext 创建一个共享的上下文，然后把需要共享的组件用 createContext 上下文包裹住，共享的值放在 CreateContext.Provider 的 value 值上，在组件内通过 useContext 拿到这些共享的值，这样就实现了状态共享。然后可以创建一个 reducer 函数，useReducer 钩子函数接收两个参数，第一个是 reducer 函数，第二个是作为 reducer 的初始值，然后把初始值和 dispatch 解构共享出去，在组件内触发改变状态值。
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+ahooks:
+useSetState：useSetState 跟 useState 一样。useState 会全部替换 state，所以你每次都需要传递完整的对象，useSetState 就不需要，可以传递部分，没有传的属性，就不变
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```js
+const [payload, setPayload] = useSetState({
+  pageNum: 1,
+  pageSize: 10,
+})
+setPayload({
+  ...payload,
+  pageSize: 20,
+})
+```
 
-### `yarn eject`
+useRequest：ajax 请求的方式
+useUnmount：卸载组件的钩子函数，跟 ueEffect 第一个参数的 return 回调一个意思
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```js
+useEffect(() => {
+  return () => {
+    clearInterval()
+  }
+}, [])
+useUnmount(() => {
+  clearInterval()
+})
+```

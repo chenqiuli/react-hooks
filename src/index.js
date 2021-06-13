@@ -1,17 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+// import ReducerDemo from './reducerDemo/Demo';
+// import UseReducer from "./UseReducer";
+// import UseContext from "./UseContext";
+// import Redux from "./redux/index";
+// import UseRef from "./UseRef";
+import UseMemo from "./UseMemo";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <UseMemo />
+    {/* <UseRef /> */}
+    {/* <Redux /> */}
+    {/* <UseContext /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
+// import React from "react";
+// import Redux from "./redux/index";
+
+// function Index () {
+//   return (
+//     <Redux />
+//   )
+// }
+
+// export default Index;
